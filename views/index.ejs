@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Home Page</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+      integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+      crossorigin="anonymous"
+    />
+
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+  </head>
+  <body>
+    <div class="NavConatiner">
+      <nav class="navbar navbar-expand-md bg-dark navbar-dark ">
+        <a class="navbar-brand" href="#">
+          <i class="fas fa-home"></i> Server OPC
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#collapsibleNavbar"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+          <ul class="nav navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="/users/logout">
+                <i class="fas fa-sign-out-alt"></i> Logout
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+          <a
+            class="nav-item nav-link active"
+            id="nav-home-tab"
+            data-toggle="tab"
+            href="#nav-home"
+            role="tab"
+            aria-controls="nav-home"
+            aria-selected="true"
+            >Status</a
+          >
+          <a
+            class="nav-item nav-link"
+            id="nav-profile-tab"
+            data-toggle="tab"
+            href="#nav-profile"
+            role="tab"
+            aria-controls="nav-profile"
+            aria-selected="false"
+            >Endpoints</a
+          >
+          <a
+            class="nav-item nav-link"
+            id="nav-contact-tab"
+            data-toggle="tab"
+            href="#nav-contact"
+            role="tab"
+            aria-controls="nav-contact"
+            aria-selected="false"
+            >Address Space</a
+          >
+          <a
+            class="nav-item nav-link"
+            id="nav-contact-tab"
+            data-toggle="tab"
+            href="#nav-Add-Variable"
+            role="tab"
+            aria-controls="nav-contact"
+            aria-selected="false"
+            > Process Variable</a
+          >
+          <a
+            class="nav-item nav-link"
+            id="nav-contact-tab"
+            data-toggle="tab"
+            href="#nav-Debug"
+            role="tab"
+            aria-controls="nav-contact"
+            aria-selected="false"
+            > Connection Log</a
+          >
+          
+          <a
+          class="nav-item nav-link"
+          id="nav-contact-tab"
+          data-toggle="tab"
+          href="#nav-Test"
+          role="tab"
+          aria-controls="nav-contact"
+          aria-selected="false"
+          > Authentication Setting</a
+        >
+        </div>
+      </nav>
+    </div>
+
+    <div class="tab-content" id="nav-tabContent">
+      <div
+        class="tab-pane fade show active"
+        id="nav-home"
+        role="tabpanel"
+        aria-labelledby="nav-home-tab"
+      >
+      <div class="card text-white bg-secondary" id="Card-endpoint">
+        <div class="row no-gutters ">
+         <div class="col-md-3 "   >
+           <img src="./images/logo.png" class="card-img" alt="Logo"
+           width="120px"
+           height="120px" 
+           style="margin-top: 160px;margin-left: 30px;">
+         </div>
+         <div class="col-md-9">
+           <div class="card-body" style="margin: 50px;">
+             <h1>OPC UA</h1>
+             <h2>Server On VPS</h2>
+             <p id="serverStatus">Server Status :  <i class="fas fa-times"> </i> Action Needed </p>
+             <p id="urlEndpoints1"></p>
+             <p id="urlEndpoints2"></p>
+             <p id="curentTime"></p>
+             <p id="timeStart"></p>
+           </div>
+         </div>
+       </div>
+     </div>
+
+      </div>
+
+      <div
+        class="tab-pane fade"
+        id="nav-profile"
+        role="tabpanel"
+        aria-labelledby="nav-profile-tab"
+      >
+       
+      <div class="Card_ConfigUrl">
+        <div class="card bg-light text-dark">
+          <div class="card-header" style="display: flex;">
+          <h2 style="margin-right: 20px;">Endpoint URL :</h2>
+          <h2 id="endpointTab2">opc.tcp://DESKTOP-LOTC86T:4840</h2>
+          </div>
+          <div class="card-body">
+            <form class="form" role="form" autocomplete="off">
+              <div class="form-group row">
+                  <label class="col-lg-6 col-form-label form-control-label">Port</label>
+                  <div class="col-lg-6">
+                      <input class="form-control"
+                       type="text" 
+                       id="portName"
+                       placeholder="Port"
+                       onkeypress="ChangeInput1()"/>
+                  </div>
+              </div>
+              <div class="form-group row">
+                  <label class="col-lg-6 col-form-label form-control-label">Server Name</label>
+                  <div class="col-lg-6">
+                      <input class="form-control" 
+                      type="text" 
+                      id="serverName"
+                      placeholder="Server Name"
+                      onkeypress="ChangeInput2()"/>
+                  </div>
+              </div>
+              <div class="form-group row">
+                  <label class="col-lg-2 col-form-label form-control-label">Security Modes</label>
+                  <div class="col-lg-3">
+                    <input
+                    type="checkbox"
+                    name="None"
+                    id="securityModeNone"
+                    value="None"
+                  />
+                  <label for="None"> None</label>
+                  </div>
+                  <div class="col-lg-3">
+                    <input
+                    type="checkbox"
+                    name="securityModeSign"
+                    id="securityModeSign"
+                    value="Sign"
+                  />
+                 <label for="securityModeSign"> Sign</label>
+                  </div>
+                  <div class="col-lg-3">
+                    <input
+                    type="checkbox"
+                    name="securityModeSignEncrypt"
+                    id="securityModeSignEncrypt"
+                    value="SignEncypt"
+                  />
+                  <label for="securityModeSignEncrypt"> Sign&Encrypt</label>
+                  </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-lg-2 col-form-label form-control-label">Security Policies</label>
+                <div class="col-lg-2">
+                  <input
+                  type="checkbox"
+                  name="None"
+                  id="securityPoliciesNone" 
+                  value="None"
+                  />
+                  <label for="None"> None</label>
+                </div>
+                <div class="col-lg-3">
+                  <input
+                  type="checkbox"
+                  name="Basic128Rsa15"
+                  id="securityPoliciesBasic128Rsa15"
+                  value="Basic128Rsa15"
+                 />
+                 <label for="Basic128Rsa15"> Basic128Rsa15</label>
+                </div>
+                <div class="col-lg-2">
+                  <input
+                  type="checkbox"
+                  name="Basic256"
+                  id="securityPoliciesBasic256"
+                  value="Basic256"
+                />
+                <label for="Basic256"> Basic256</label>
+                </div>
+                <div class="col-lg-3">
+                  <input
+                  type="checkbox"
+                  name="Basic256Sha256"
+                  id="securityPoliciesBasic256Sha256"
+                  value="Basic256Sha256"
+                  />
+                  <label for="Basic256Sha256"> Basic256Sha256</label>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">Authentication</label>
+                <div class="col-lg-3">
+                  <input
+                  type="checkbox"
+                  name="anonymous"
+                  id='anonymous'
+                  value="anonymous"
+                  onclick="AuthenticationSetting()"
+                />
+                <label for="anonymous"> Anonymous </label> 
+                </div>
+                <div class="col-lg-6">
+                  <input
+                  type="checkbox"
+                  name="user"
+                  id="authenticationUser"
+                  value="user"
+                  onclick="DisableAnonymous()"
+                />
+                <label for="user"> user</label> 
+                </div>
+              </div>
+
+             <div class="form-group row">
+              <label class="col-lg-6 col-form-label form-control-label"></label>
+              <label class="col-lg-2 col-form-label form-control-label">Username</label>
+              <div class="col-lg-4">
+                <input class="form-control" 
+                type="text" 
+                placeholder="Username" 
+                name="username" 
+                id="usernameUser" />
+              </div>
+             </div>
+
+             <div class="form-group row">
+              <label class="col-lg-6 col-form-label form-control-label"></label>
+              <label class="col-lg-2 col-form-label form-control-label">Password</label>
+              <div class="col-lg-4">
+                <input class="form-control" 
+                type="password" 
+                placeholder="Password"
+                name="password" 
+                id="passwordUser" />
+              </div>
+             </div>
+
+              <div class="form-group row">
+               <div class="col lg-2">
+                <button type="button" class="btn btn-danger" id="btnShuttdown" onclick="shuttdown()"> Shut down Server </button>
+               </div>
+               <div class="col-lg-4">
+                <h5 id="messageShuttdownServer"></h5>
+              </div>
+        
+              <div class="col-lg-2">
+                <button type="button" class="btn btn-primary" id="btnApply" onclick="SettingUrl()"> Apply </button>
+              </div>
+              <div class="col-lg-2">
+              <h5 id="messageApplyServer"></h5>
+              </div>
+              <div class="col-lg-2">
+                <button
+                type="button"
+                class="btn btn-secondary"
+                data-toggle="modal" data-target="#myModal1"
+                >
+                Show All Endpoint
+               </button>
+              </div>
+              </div>
+          </form>
+          </div>
+        </div>
+      </div>
+        
+      </div>
+
+      <div
+        class="tab-pane fade"
+        id="nav-contact"
+        role="tabpanel"
+        aria-labelledby="nav-contact-tab"
+      >
+        <div class="container-fluid"  >
+          <div class="row">
+            <div class="col-2 collapse show d-md-flex bg-light pt-2 pl-0 min-vh-100 " id="sidebar" >
+              <ul class="nav flex-column flex-nowrap overflow-hidden">
+                <li class="nav-item">
+                  <a class="nav-link text-truncate" href="#">
+                    <span class="d-none d-sm-inline">Root</span></a
+                  >
+                </li>
+
+                <li class="nav-item">
+                  <a
+                    class="nav-link collapsed text-truncate"
+                    href="#submenu1"
+                    data-toggle="collapse"
+                    data-target="#submenu1"
+                  >
+                    <span class="d-none d-sm-inline">Objects</span></a>
+                  <div class="collapse" id="submenu1" aria-expanded="false">
+                    <ul class="flex-column pl-2 nav" id="allDevice" > </ul>
+                  </div>
+                </li>
+
+                <li class="nav-item">
+                  <a
+                    class="nav-link collapsed text-truncate"
+                    href="#submenu2"
+                    data-toggle="collapse"
+                    data-target="#submenu2"
+                  >
+                    <span class="d-none d-sm-inline">Types</span></a
+                  >
+                  <div class="collapse" id="submenu2" aria-expanded="false">
+                    <ul class="flex-column pl-2 nav">
+                      <li class="nav-item">
+                        <a class="nav-link py-0" href="#"
+                          ><span>DataTypes</span></a
+                        >
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link py-0" href="#"
+                          ><span>EventTypes</span></a
+                        >
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link py-0" href="#"
+                          ><span>InterfaceTypes</span></a
+                        >
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link py-0" href="#"
+                          ><span>ObjectTypes</span></a
+                        >
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link py-0" href="#"
+                          ><span>ObjectTypes</span></a
+                        >
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link py-0" href="#"
+                          ><span>ReferrenceTypes</span></a
+                        >
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link py-0" href="#"
+                          ><span>VariabeTypes</span></a
+                        >
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+
+                <li class="nav-item">
+                  <a class="nav-link text-truncate" href="#"
+                    ><span class="d-none d-sm-inline">Views</span></a
+                  >
+                </li>
+              </ul>
+            </div>
+
+            <div class="card bg-light " style=" width: 80%;
+            margin: 40px auto; bottom: 0px;">
+              <div>
+                <h1 style="text-align: center ;margin: 10px;" ><i class="fas fa-tv fa-lg"></i> Monitor Variable </h1>
+                <!-- <button style="margin: 5px;" type="button" class="btn btn-secondary" onclick="refreshData()"><i class="fas fa-sync"> refresh</i></button> -->
+                
+              </div>
+              <div class="table-responsive">
+                <table id="productTable" class="table table-striped table-sm">
+                  <thead  class="thead-light" >
+                    <tr>
+                      <th>Stt</th>
+                      <th>Node Id</th>
+                      <th>Display Name</th>
+                      <th>Value</th>
+                      <th>Datatype</th>
+                      <th>Source Timestamp</th>
+                      <th>Writeable</th>
+                      <th>Delete Variable Monitor</th>
+                    </tr>
+                  </thead>
+
+                  <tbody id="myTable"> </tbody>
+
+                </table>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <div
+        class="tab-pane fade"
+        id="nav-Add-Variable"
+        role="tabpanel"
+        aria-labelledby="nav-contact-tab"
+      >
+      
+   <div class="Card_Addvariable">
+   
+    <div class="card-deck">
+      <div class="card">
+        <h3 >Add Variable</h3>
+        <div class="card-body">
+
+          <form class="form" role="form" autocomplete="off">
+            <div class="form-group row">
+                <label class="col-lg-6 col-form-label form-control-label">Device Name</label>
+                <div class="col-lg-6">
+                    <input class="form-control" type="text" id="addDevicenameOfVariable" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-6 col-form-label form-control-label">Variable Name</label>
+                <div class="col-lg-6">
+                    <input class="form-control" type="text" id="addBrowerNameOfVariable" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-6 col-form-label form-control-label">DataType</label>
+                <div class="col-lg-6">
+                    <select id="addDataTypeOfVariable" name="addDataTypeOfVariable" class="form-control">
+                      <option value="Boolean">Boolean</option>
+                      <option value="Float">Float</option>
+                      <option value="Double">Double</option>
+                      <option value="Byte">Byte</option>
+                      <option value="Int16">Int16</option>
+                      <option value="Int32">Int32</option>
+                      <option value="Int64">Int64</option>
+                      <option value="UInt16">UInt16</option>
+                      <option value="UInt32">UInt32</option>
+                      <option value="UInt64">UInt64</option>
+                      <option value="String">String</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-6 col-form-label form-control-label">Writeable</label>
+                <div class="col-lg-6">
+                    <select id="addWriteableOfVariable" name="addWriteableOfVariable" class="form-control">
+                      <option value="true">true</option>
+                      <option value="false">false</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-6 col-form-label form-control-label">Value</label>
+                <div class="col-lg-6">
+                    <input class="form-control" type="text" id="addValueOfVariable" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-6 col-form-label form-control-label"></label>
+                <div class="col-lg-6">
+                    <button type="button" class="btn btn-primary" id="btnAddVariable" onclick="addVariable()" > Create </button>
+                </div>
+            </div>
+        </form>
+        <h5 id="messageAddVariable"></h5>
+        </div>
+        <div class="card-footer">
+          <small class="text-muted">Form Create Variable</small>
+        </div>
+      </div>
+     
+      <div class="card">
+        <h3>Update Variable</h3>
+        <div class="card-body">
+         
+          <form class="form" role="form" autocomplete="off">
+            <div class="form-group row">
+                <label class="col-lg-6 col-form-label form-control-label">Device Name</label>
+                <div class="col-lg-6">
+                    <input class="form-control" type="text" id="updateDevicenameOfVariable" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-6 col-form-label form-control-label">Variable Name</label>
+                <div class="col-lg-6">
+                    <input class="form-control" type="text" id="updateBrowerNameOfVariable" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-6 col-form-label form-control-label">DataType</label>
+                <div class="col-lg-6">
+                    <select id="updateDataTypeOfVariable" name="updateDataTypeOfVariable" class="form-control">
+                      <option value="Boolean">Boolean</option>
+                      <option value="Float">Float</option>
+                      <option value="Double">Double</option>
+                      <option value="Byte">Byte</option>
+                      <option value="Int16">Int16</option>
+                      <option value="Int32">Int32</option>
+                      <option value="Int64">Int64</option>
+                      <option value="UInt16">UInt16</option>
+                      <option value="UInt32">UInt32</option>
+                      <option value="UInt64">UInt64</option>
+                      <option value="String">String</option>
+                    </select>
+                   
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-6 col-form-label form-control-label">Writeable</label>
+                <div class="col-lg-6">
+                    <select id="updateWriteableOfVariable" name="updateWriteableOfVariable" class="form-control">
+                      <option value="true">true</option>
+                      <option value="false">false</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-6 col-form-label form-control-label">Value</label>
+                <div class="col-lg-6">
+                    <input class="form-control" type="text" id="updateValueOfVariable" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-6 col-form-label form-control-label"></label>
+                <div class="col-lg-6">
+                    <button type="button" class="btn btn-primary" id="btnUpdateVariable" onclick="updateVariable()" > Update </button>
+                </div>
+            </div>
+        </form>
+        <h5 id="messageUpdateVariable"></h5>
+        </div>
+        <div class="card-footer">
+          <small class="text-muted">Form Edit Varibable</small>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Delete Variable</h3>
+        <div class="card-body">
+          
+          <form class="form" role="form" autocomplete="off">
+            <div class="form-group row">
+                <label class="col-lg-6 col-form-label form-control-label">Device Name</label>
+                <div class="col-lg-6">
+                    <input class="form-control" type="text" id="deleteDevicenameOfVariable" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-6 col-form-label form-control-label">Variable Name</label>
+                <div class="col-lg-6">
+                    <input class="form-control" type="text" id="deleteBrowerNameOfVariable" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-6 col-form-label form-control-label"></label>
+                <div class="col-lg-6">
+                    <button type="button" class="btn btn-primary" id="btnDeleteVariable" onclick="deleteVariable()" > Delete </button>
+                </div>
+            </div>
+        </form>
+        <h5 id="messageDeleteVariable"></h5>
+        </div>
+        <div class="card-footer">
+          <small class="text-muted">Form Delete Variable</small>
+        </div>
+      </div>
+
+    </div>
+
+   </div>
+  </div>
+
+      <div
+        class="tab-pane fade"
+        id="nav-Debug"
+        role="tabpanel"
+        aria-labelledby="nav-contact-tab"
+      >
+      <div class="card bg-light" style="width: 100%  ; margin: 0 auto;">
+        <div id="table-session-log">
+          <table class="table table-striped">
+            <thead class="thead-dark">
+              <tr>
+                <th> </th>
+                <th>TimeStamp</th>
+                <th>Event Type</th>
+                <th>SesionName</th>
+                <th>SessionId</th>
+                <th>ClientIdentity</th>
+                <th>Security</th>
+              </tr>
+            </thead>
+            <tbody id="tableSession">
+  
+            </tbody>
+  
+          </table>
+         </div>
+      </div>
+       
+      
+      </div>
+
+
+      <div
+        class="tab-pane fade"
+        id="nav-Test"
+        role="tabpanel"
+        aria-labelledby="nav-contact-tab"
+      >
+      <div class="Card-setting">
+        <div class="user-Card">
+          <div class="card border-secondary" id="card-adduser">
+            <div class="card-header" style="text-align: center;">Add User</div>
+            <div class="card-body text-secondary">
+              <form >
+                <div class="form-group">
+                  <label for="addUsername">Username:</label>
+                  <input type="text" class="form-control" id="addUsername" placeholder="Enter username" name="addUsername" required>
+                  <div class="valid-feedback">Valid.</div>
+                  <div class="invalid-feedback">Please fill out this field.</div>
+                </div>
+                <div class="form-group">
+                  <label for="addPassword">Password:</label>
+                  <input type="password" class="form-control" id="addPassword" placeholder="Enter password" name="addPassword" required>
+                  <div class="valid-feedback">Valid.</div>
+                  <div class="invalid-feedback">Please fill out this field.</div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <button type="button" class="btn btn-primary" id="addUser">Add</button>
+                  </div>
+                  <div class="col">
+                    <h5 id="finishAddUser"></h5>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div class="card border-dark" id="card-deleteuser">
+            <div class="card-header" style="text-align: center;">Deldete User</div>
+            <div class="card-body text-dark">
+              <form >
+                <div class="form-group">
+                  <label for="delUsername">Username:</label>
+                  <input type="text" class="form-control" id="delUsername" placeholder="Enter username" name="delUsername" required>
+                  <div class="valid-feedback">Valid.</div>
+                  <div class="invalid-feedback">Please fill out this field.</div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <button type="button" class="btn btn-danger" onclick="deleteUser()" id="deleteUser">Deldete</button>
+                  </div>
+                  <div class="col">
+                    <h5 id="finishDeleteUser"></h5>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+         
+        <div class="card border-info" style="position:absolute; width: 400px; margin-top: 20px;margin-left: 330px;">
+          <div class="card-header"style="text-align: center;">
+            List User
+          </div>
+          <ul class="list-group list-group-flush" id="listUser">
+      
+          </ul>
+        </div>
+
+        <div class="certificate_Card">
+          <div class="card border-dark">
+            <div class="card-header" style="text-align: center;">Certificate Setting</div>
+            <div class="card-body text-dark">
+              <div class="card border-primary" style="margin: 20px;"  >
+                <div class="card-header"style="text-align: center;">
+                  Certificate Trusted List
+                </div>
+                <ul class="list-group list-group-flush" id="listTrust">
+            
+                </ul>
+              </div>
+
+              <div class="card border-danger" style="margin: 20px;"  >
+                <div class="card-header"style="text-align: center;">
+                  Certificate Rejected List
+                </div>
+                <ul class="list-group list-group-flush" id="listReject">
+            
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+
+
+    <!-- Modal -->
+    <!-- Modal Drag Drop -->
+     <!-- The Modal -->
+  <div class="modal fade" id="myModal1">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Sever Endpoints</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+          <table class="table">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">URL</th>
+                <th scope="col">Security Mode</th>
+                <th scope="col">Security Policy</th>
+              </tr>
+            </thead>
+            <tbody id="tableEndpointModal">
+              
+            </tbody>
+          </table>
+          
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      </div>
+  </div>
+
+
+    <script src="./javascripts/myScripts.js"></script>
+  </body>
+</html>

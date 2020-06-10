@@ -1,0 +1,1 @@
+{"appName":"OPCUA_Communication","description":"Sample configuration uername for authentication","serverConfig":{"allowAnonymous":false,"userList":[{"user":"Admin","password":"Admin"}]}}

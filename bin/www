@@ -1,0 +1,919 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+var app = require("../app");
+var debug = require("debug")("template-server:server");
+var http = require("http");
+
+/**
+ * Get port from environment and store in Express.
+ */
+
+var port = normalizePort(process.env.PORT || "3000");
+app.set("port", port);
+
+/**
+ * Create HTTP server.
+ */
+
+var server = http.createServer(app);
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port);
+server.on("error", onError);
+server.on("listening", onListening);
+
+// Require Modules
+const opcua = require("node-opcua");
+const path = require("path");
+const fs = require("fs");
+const pki = require("node-opcua-pki");
+const ip = require("ip");
+const os = require("os");
+const io = require("socket.io")(server);
+var async = require('asyncawait/async');
+var await = require('asyncawait/await');
+var ipAddress = ip.address();
+var hostname = os.hostname();
+
+//opcua server import
+var OPCUAServer = require('../models/OPC_Server');
+
+
+// decalare public variable and add seft module
+var appConfig = require("../module/appconfig.json");
+var applicationUri = "My OPC UA Server ";
+
+//Create options for OPC Server
+var options = {};
+options.maxAllowedSessionNumber = 500;
+options.maxConnectionsPerEndpoint = 500;
+options.port = 4840 ; 
+options.alternateHostname = ipAddress;
+options.buildInfo = {
+  productName: hostname,
+  buildNumber: "1",
+  buildDate: new Date(2020, 03, 20),
+};
+options.serverInfo = {
+  applicationUri : "urn:"+ hostname + ":ua/node-opcua",
+  productUri: "node-opcua",
+  applicationName: { text: "node-opcua", locale: "en" },
+  gatewayServerUri: null,
+  discoveryProfileUri: null,
+  discoveryUrls: [],
+};
+
+// Declare folder and file for certificate of opc server
+const certificateFolder = path.join(process.cwd(), "certtificates");
+const certificateFile = path.join(certificateFolder, "server_certificate.pem");
+const serverCertificateManager = new opcua.OPCUACertificateManager({
+  automaticallyAcceptUnknownCertificate: true,
+  rootFolder: certificateFolder,
+});
+
+// execute function create certificate if no exit file has been create before
+(async function () {
+  try {
+    await serverCertificateManager.initialize();
+    if (!fs.existsSync(certificateFile)) {
+      console.log("creating certificate ", certificateFile);
+      const pkiM = new pki.CertificateManager({
+        location: certificateFolder,
+      });
+      await pkiM.initialize();
+      await pkiM.createSelfSignedCertificate({
+        subject: "/CN=MyCommonName;/L=Paris",
+        startDate: new Date(),
+        dns: [],
+        validity: 365 * 5,
+        applicationUri: applicationUri,
+        outputFile: certificateFile,
+      });
+      console.log("certificate ", certificateFile, "created");
+    }
+    const privateKeyFile = serverCertificateManager.privateKey;
+    console.log("certificateFile = ", certificateFile);
+    console.log("privateFile = ", privateKeyFile);
+    options.serverCertificateManager = serverCertificateManager;
+    options.privateKeyFile = privateKeyFile;
+    options.certificateFile = certificateFile;
+  } catch (error) {
+    console.log(error);
+  }
+})();
+
+// Create Server by node-opcua library 
+// Declare global variable 
+var moduleData = {};   // store data about options and server of opc server
+var flag = 0;           // set when server has been start to load data again
+var objectEndpoints = {};  // store endpoints of op server
+var stateServer = true  ;  // message state of server 
+
+// Add user in uerlist to authority for server 
+var arrayUsers = [] ; 
+for(let i = 0 ; i< appConfig.serverConfig.userList.length ; i++){
+  arrayUsers.push(appConfig.serverConfig.userList[i]) ; 
+}
+
+// Create server 
+var Start = async (function ()
+{
+				try
+				{	
+					//Create OPC UA Server 
+					console.log ('Start OPCUA Server...');
+          moduleData = await (OPCUAServer.startAsync (options));
+          
+				}
+				catch (e)
+				{
+				console.log (e);
+				}
+});
+// open browser
+io.on("connection", (socket) => {
+console.log("Client is openning...");    // message open browser
+socket.on('shuttdownServer',(data)=>{
+  var server = moduleData.server ; 
+  if(server === undefined){
+    socket.emit('responseServer', {message: `Server doesn't seems to be started yet`, color:'red'}) ; 
+  }else{
+    server.shutdown(1500, (err)=>{
+      if(err === null){
+       socket.emit('responseServer',{message: 'Server has been shut down' , color: 'green'}) ; 
+      }else{
+        socket.emit('responseServer', {message: `Server doesn't seems to be started yet`, color:'red'}) ; 
+      }
+    });
+    stateServer = false ; 
+  }
+}) ; 
+
+socket.on("add", (data) => {
+    AddVariable(data)
+});
+socket.on("delete", (data) => {
+    DeleteVariable(data)
+});
+socket.on('update',(data)=>{
+  UpdateBefore(data) ;
+  if(UpdateBefore(data)){
+    UpdateAfter(data) ; 
+  }
+}) ; 
+socket.on('addUserAndPass',(data)=>{
+  if(arrayUsers.length === 0){
+    arrayUsers.push({
+      user: data.user , 
+      password: data.password
+    }) ;
+    socket.emit('ackAddUser',{listUser: arrayUsers , message:'User has been added' , color: 'green' } ) ;
+  }else{
+    for(let i =0  ; i < arrayUsers.length ; i++){
+      if(arrayUsers[i].user === data.user){
+        socket.emit('ackAddUser',{listUser: arrayUsers , message:'user already exists' , color: 'red' } ) ;
+        break ; 
+      }
+      if( i=== arrayUsers.length -1 && arrayUsers[i].user !== data.user){
+        arrayUsers.push({
+          user: data.user ,
+          password: data.password
+        }) ;
+        socket.emit('ackAddUser',{listUser: arrayUsers , message:'User has been added' , color: 'green' } ) ;
+        break ; 
+      }
+    }
+  }
+}) ;
+socket.on('deleteUser',(data)=>{
+  if(arrayUsers.length ===0){
+    socket.emit('ackDeleteUser', {listUser: arrayUsers , message:'Could not find user', color: 'red' })
+  }else{
+    for(let i = 0 ; i < arrayUsers.length ; i++){
+      if(arrayUsers[i].user === data.user){
+       arrayUsers.splice(i,1) ; 
+       socket.emit('ackDeleteUser', {listUser: arrayUsers , message:'User has been deleted', color: 'green' })
+       break ; 
+      }
+      if(i === arrayUsers.length -1 && arrayUsers[i].user !== data.user){
+        socket.emit('ackDeleteUser', {listUser: arrayUsers , message:'Could not find user', color: 'red' })
+      }
+    } ;
+  }
+})
+// settin options for opc server and start server
+socket.on("optionsOPC", (data) => {
+    if (data.port === null) {
+      options.port = 4840;
+    } else {
+      options.port = data.port;
+    }
+    if (data.resourcePath === "/") {
+      options.resourcePath = "";
+    } else {
+      options.resourcePath = data.resourcePath;
+    }
+    var Modes = data.securityModes;
+    var Policies = data.securityPolicies;
+    options.securityModes = Modes.map((element) => {
+      let result;
+      switch (element) {
+        case "opcua.MessageSecurityMode.None":
+          result = opcua.MessageSecurityMode.None;
+          break;
+        case "opcua.MessageSecurityMode.Sign":
+          result = opcua.MessageSecurityMode.Sign;
+          break;
+        case "opcua.MessageSecurityMode.SignAndEncrypt":
+          result = opcua.MessageSecurityMode.SignAndEncrypt;
+          break;
+        default:
+          break;
+      }
+      return result;
+    });
+
+    options.securityPolicies = Policies.map((element) => {
+      let result;
+      switch (element) {
+        case "opcua.SecurityPolicy.None":
+          result = opcua.SecurityPolicy.None;
+          break;
+        case "opcua.SecurityPolicy.Basic128Rsa15":
+          result = opcua.SecurityPolicy.Basic128Rsa15;
+          break;
+        case "opcua.SecurityPolicy.Basic256":
+          result = opcua.SecurityPolicy.Basic256;
+          break;
+        case "opcua.SecurityPolicy.Basic256Sha256":
+          result = opcua.SecurityPolicy.Basic256Sha256;
+          break;
+        default:
+          break;
+      }
+      return result;
+    });
+
+    options.allowAnonymous = data.allowAnonymous;
+    (async () => {
+      if (data.allowAnonymous === false) {
+        console.log(arrayUsers)
+        for(let i = 0 ; i< arrayUsers.length ; i++){
+          if(arrayUsers[i].user !== data.user && arrayUsers[i].password !== data.password){
+            arrayUsers.push({user: data.user,
+              password: data.password}) ; 
+          }
+        }
+        var usrManager = {};
+        usrManager.isValidUser = function (username, password) {
+          for(let i = 0; i < arrayUsers.length; i++) {
+            var uName = arrayUsers[i].user;
+            var uPass = arrayUsers[i].password;
+            if (username == uName && password == uPass) {
+              return true;
+            }
+          }
+          return false;
+        };
+        options.userManager = usrManager;
+      }
+      await Start() ; 
+      
+      socket.emit('allPropertiesVariable',moduleData.propertiesAllVariable);
+      socket.emit(  "endpoints1",moduleData.server.endpoints[0].endpointDescriptions()[0].endpointUrl);
+      socket.emit( "endpoints2","opc.tcp://" + ipAddress + ":" + port + options.resourcePath );
+    })();
+    setTimeout(() => {
+      socket.emit('startServer' , {message: 'Server is running' , color: 'green'} )
+    }, 2000);
+    flag = 1;
+  });
+
+  // get All Endpoints
+socket.on("allEndpoints", (data) => {
+    objectEndpoints = data;
+    console.log(objectEndpoints);
+});
+  // load data before Server Started
+socket.emit('loadUser', {listUser: arrayUsers }) ; 
+  // List trusted of certificate 
+  var arrayListTrusted = []
+  const folderTrust = './certtificates/trusted' ;
+  fs.readdirSync(folderTrust).forEach(file => {
+    arrayListTrusted.push(file) ; 
+  }) ; 
+socket.emit('loadListTrusted',arrayListTrusted )
+  // List rejected of certificate
+  var arrayListRejected = []
+  const folderReject = './certtificates/rejected' ;
+  fs.readdirSync(folderReject).forEach(file => {
+    arrayListRejected.push(file) ; 
+  }) ; 
+socket.emit('loadListRejected',arrayListRejected )
+  // Move reject and trust ceertificate 
+socket.on('moveToReject', (data)=>{
+  var moveFile = (file, dir2)=>{
+  var f = path.basename(file);
+  var dest = path.resolve(dir2, f);
+  fs.rename(file, dest, (err)=>{
+    if(err) throw err;
+    else console.log('Successfully moved');
+  });
+  };
+  moveFile(`./certtificates/trusted/${data}`, './certtificates/rejected'); 
+}) ;
+
+socket.on('moveToTrust', (data)=>{
+    var moveFile = (file, dir2)=>{
+    var f = path.basename(file);
+    var dest = path.resolve(dir2, f);
+    fs.rename(file, dest, (err)=>{
+      if(err) throw err;
+      else console.log('Successfully moved');
+    });
+    };
+    moveFile(`./certtificates/rejected/${data}`, './certtificates/trusted'); 
+});
+  // Load All Data
+if (flag && stateServer ) {
+    var mainUrl = moduleData.server.endpoints[0].endpointDescriptions()[0].endpointUrl;
+    var alternativeUrl ="opc.tcp://" + ipAddress + ":" + options.port + options.resourcePath;
+    var dateTime = moduleData.server.engine.startTime;
+    var arrayData = moduleData.dataArray;
+    var allProperties = moduleData.allPropertyOfAllVariable;
+    console.log(arrayData) ; 
+    socket.emit("saveConfig", {
+      mainUrl,
+      alternativeUrl,
+      arrayData,
+      allProperties,
+      dateTime,
+    });
+
+    setInterval(() => {
+      var AllData = loadAllValueOfVariable(moduleData.server)
+      socket.emit("changed1", AllData);
+    }, 500);
+
+    var allSessionCreate = moduleData.arraySessionCreated;
+    var allSessionClosed = moduleData.arraySessionClosed;
+    socket.emit("SessionCreate", allSessionCreate);
+    socket.emit("SessionClosed", allSessionClosed);
+    socket.emit("tranferAgaintObjectEndpoints", objectEndpoints);
+
+    // cycle get all data , create api get data
+    setInterval(() => {
+    var server  = moduleData.server ;
+    var AllData = loadAllValueOfVariable(server) ;
+    moduleData.AllData = AllData ; 
+    }, 1000);
+
+    app.get('/api/get', (req ,res)=>{
+    res.send(JSON.stringify(moduleData.AllData )) ; 
+    });
+    app.post('/api/update', (req,res)=>{
+      let dataPut = req.body.data ; 
+      res.send(JSON.stringify({data: dataPut})) ; 
+      var nodesToWrite = [
+        {
+          nodeId: 'ns=1;s="simulation"."random"',
+          attributeId: 13,
+          indexRange: null,
+          value: {
+            value: {
+              dataType: opcua.DataType.Double,
+              value: dataPut,
+            },
+          },
+        },
+      ];
+      const Write_Valua = session.write(nodesToWrite, function(
+        err,
+        StatusCode
+      ) {
+        if (!err) console.log(" Write OK !" , dataPut);
+      });
+    }) ; 
+
+    // function get All value and name variable
+function loadAllValueOfVariable(server){
+  if(server.engine.addressSpace !== null){
+    let object = server.engine.addressSpace.rootFolder.objects;
+    let DataTranfer = [];
+    let AllData = [];
+    let allDevice = Object.keys(object).slice(9, Object.keys(object).length );
+    for (const iterator of allDevice) {
+      let eachDevice = Object.values(object[iterator]).slice(8,Object.values(object[iterator]).length);
+      DataTranfer.push(eachDevice);}
+    for (let i = 0; i < DataTranfer.length; i++) {
+      for (let j = 0; j < DataTranfer[i].length; j++) {
+        if (DataTranfer[i][j] !== undefined) {
+          AllData.push({
+            name: DataTranfer[i][j].browseName.name,
+            value: DataTranfer[i][j]._dataValue.value.value,
+            nodeId: DataTranfer[i][j].nodeId
+          });
+        }
+      }
+    } ;
+    return AllData ;
+  }
+ }
+}
+
+  // function , add, delete variable
+ function AddVariable(data){
+  var arrayAllVariableAndDevice = moduleData.dataArray;
+  var arrayAllVariable = arrayAllVariableAndDevice.slice(1,arrayAllVariableAndDevice.length);
+  var arrayAllDevice = arrayAllVariableAndDevice.shift();
+  var arrayAllPropertiesOfVariable = moduleData.allPropertyOfAllVariable;
+  var arrayPropertiesOfDevice = moduleData.arrayPropertiesOfDevice;
+  var arrayAllNodeID = moduleData.arrayAllNodeID;
+
+  const server = moduleData.server;
+  const addressSpace = server.engine.addressSpace;
+  const namespace = addressSpace.getOwnNamespace();
+  let propertiesOfVariable = {
+    deviceName: data.Devicename,
+    properties: {
+      nodeId: data.nodeId,
+      name: data.browerName,
+      dataType: data.dataType,
+      writable: data.writeable,
+    },
+  };
+  var device;
+  var ValueOfVariable = data.value;
+
+  for (let i = 0; i < arrayAllDevice.length; i++) {
+    if (arrayAllDevice[i] === data.Devicename) {
+  
+      if (!( typeof arrayAllVariable[i] !== "undefined" && arrayAllVariable[i].length > 0)) {
+        for (let k = 0; k < arrayAllDevice.length; k++) {
+          if (arrayAllDevice[k] === arrayAllDevice[i]) {
+            device = arrayPropertiesOfDevice[k];
+            break;
+          }
+        }
+        arrayAllPropertiesOfVariable.push(propertiesOfVariable);
+        arrayAllVariable[i].push(data.browerName);
+        if (data.writeable) {
+          var variableBefore = namespace.addVariable({
+            componentOf: device,
+            browseName: data.browerName,
+            nodeId: data.nodeId,
+            dataType: data.dataType,
+            value: {
+              get: function () {
+                let variant = new opcua.Variant({
+                  dataType: data.dataType,
+                  value: ValueOfVariable,
+                });
+                return variant;
+              },
+              set: function (variant) {
+                ValueOfVariable = variant.value;
+                return opcua.StatusCodes.Good;
+              },
+            },
+          });
+          arrayAllNodeID.push(variableBefore);
+        } else {
+          var variableAfter = namespace.addVariable({
+            componentOf: device,
+            browseName: data.browerName,
+            nodeId: data.nodeId,
+            dataType: data.dataType,
+            value: {
+              get: function () {
+                let variant = new opcua.Variant({
+                  dataType: opcua.DataType.Int16,
+                  value: ValueOfVariable,
+                });
+                return variant;
+              },
+              set: function (variant) {
+                return opcua.StatusCodes.BadNotWritable;
+              },
+            },
+          });
+          arrayAllNodeID.push(variableAfter);
+        }
+        socket.emit("messageVariableAdded", {
+          value: "Variable has been create !",
+          color: "green",
+        });
+        // console.log(arrayAllVariable, arrayAllPropertiesOfVariable) ; 
+      }else{
+        for (let j = 0; j < arrayAllVariable[i].length; j++) {
+          if (arrayAllVariable[i][j] === data.browerName) {
+            socket.emit("messageVariableAdded", {
+              value: "Variable has already exist !",
+              color: "red",
+            });
+            break;
+          }
+          if ( j === arrayAllVariable[i].length - 1 && arrayAllVariable[i][j] !== data.browerName) {
+
+            for (let k = 0; k < arrayAllDevice.length; k++) {
+              if (arrayAllDevice[k] === arrayAllDevice[i]) {
+                device = arrayPropertiesOfDevice[k];
+                break;
+              }
+            }
+            arrayAllPropertiesOfVariable.push(propertiesOfVariable);
+            arrayAllVariable[i].push(data.browerName);
+            if (data.writeable) {
+              var variableBefore = namespace.addVariable({
+                componentOf: device,
+                browseName: data.browerName,
+                nodeId: data.nodeId,
+                dataType: data.dataType,
+                value: {
+                  get: function () {
+                    let variant = new opcua.Variant({
+                      dataType: data.dataType,
+                      value: ValueOfVariable,
+                    });
+                    return variant;
+                  },
+                  set: function (variant) {
+                    ValueOfVariable = variant.value;
+                    return opcua.StatusCodes.Good;
+                  },
+                },
+              });
+              arrayAllNodeID.push(variableBefore);
+            } else {
+              var variableAfter = namespace.addVariable({
+                componentOf: device,
+                browseName: data.browerName,
+                nodeId: data.nodeId,
+                dataType: data.dataType,
+                value: {
+                  get: function () {
+                    let variant = new opcua.Variant({
+                      dataType: opcua.DataType.Int16,
+                      value: ValueOfVariable,
+                    });
+                    return variant;
+                  },
+                  set: function (variant) {
+                    return opcua.StatusCodes.BadNotWritable;
+                  },
+                },
+              });
+              arrayAllNodeID.push(variableAfter);
+            }
+            socket.emit("messageVariableAdded", {
+              value: "Variable has been create !",
+              color: "green",
+            });
+            break;
+          }
+        }
+
+      }
+      break;
+    }
+    if (i === arrayAllDevice.length - 1 && arrayAllDevice[i] !== data.Devicename) {
+      arrayAllPropertiesOfVariable.push(propertiesOfVariable);
+      arrayAllDevice.push(data.Devicename);
+      arrayAllVariable.push([data.browerName]);
+      device = namespace.addObject({
+        organizedBy: addressSpace.rootFolder.objects,
+        browseName: data.Devicename,
+      });
+      arrayPropertiesOfDevice.push(device);
+      if (data.writeable) {
+        var variableBefore = namespace.addVariable({
+          componentOf: device,
+          browseName: data.browerName,
+          nodeId: data.nodeId,
+          dataType: data.dataType,
+          value: {
+            get: function () {
+              let variant = new opcua.Variant({
+                dataType: data.dataType,
+                value: ValueOfVariable,
+              });
+              return variant;
+            },
+            set: function (variant) {
+              ValueOfVariable = variant.value;
+              return opcua.StatusCodes.Good;
+            },
+          },
+        });
+        arrayAllNodeID.push(variableBefore);
+      } else {
+        var variableAfter = namespace.addVariable({
+          componentOf: device,
+          browseName: data.browerName,
+          nodeId: data.nodeId,
+          dataType: data.dataType,
+          value: {
+            get: function () {
+              let variant = new opcua.Variant({
+                dataType: opcua.DataType.Int16,
+                value: ValueOfVariable,
+              });
+              return variant;
+            },
+            set: function (variant) {
+              return opcua.StatusCodes.BadNotWritable;
+            },
+          },
+        });
+        arrayAllNodeID.push(variableAfter);
+      }
+      socket.emit("messageVariableAdded", {
+        value: "Variable has been create !",
+        color: "green",
+      });
+      break;
+    }
+  }
+  arrayAllVariable.unshift(arrayAllDevice);
+
+  moduleData.allPropertyOfAllVariable = arrayAllPropertiesOfVariable;
+  moduleData.dataArray = arrayAllVariable;
+  moduleData.arrayPropertiesOfDevice = arrayPropertiesOfDevice;
+  moduleData.arrayAllNodeID = arrayAllNodeID;
+  moduleData.server = server;
+}
+
+function DeleteVariable(data){
+  var arrayAllNodeID = moduleData.arrayAllNodeID;
+  var arrayAllVariableAndDevice = moduleData.dataArray;
+  var arrayAllVariable = arrayAllVariableAndDevice.slice( 1, arrayAllVariableAndDevice.length );
+  var arrayAllDevice = arrayAllVariableAndDevice.shift();
+  var arrayAllPropertiesOfVariable = moduleData.allPropertyOfAllVariable;
+
+  var server = moduleData.server;
+  var addressSpace = server.engine.addressSpace;
+  var namespace = addressSpace.getOwnNamespace();
+
+  for (let i = 0; i < arrayAllDevice.length; i++) {
+    if (arrayAllDevice[i] === data.Devicename) {
+      if( arrayAllVariable[i].length ===0 ){
+        socket.emit("messageVariableDeleted", {
+          value: "Variable of device is empty !",
+          color: "red",
+        });
+      }else{
+        for (let j = 0; j < arrayAllVariable[i].length; j++) {
+          if (arrayAllVariable[i][j] === data.browerName) {
+            for (let l = 0; l < arrayAllPropertiesOfVariable.length; l++) {
+              if ( arrayAllPropertiesOfVariable[l].properties.name === data.browerName) {
+                namespace.deleteNode(arrayAllNodeID[l]);
+                arrayAllNodeID.splice(l, 1);
+                arrayAllPropertiesOfVariable.splice(l, 1);
+                break;
+              }
+            }
+            arrayAllVariable[i].splice(j, 1);
+            delete  moduleData.server.engine.addressSpace.rootFolder.objects[arrayAllDevice[i]][data.browerName] ; 
+            socket.emit("messageVariableDeleted", {
+              value: "Variable has been deleted !",
+              color: "green",
+            });
+            break;
+          }
+          if ( j === arrayAllVariable[i].length - 1 && arrayAllVariable[i][j] !== data.browerName
+          ) {
+            socket.emit("messageVariableDeleted", {
+              value: "Variable no exit !",
+              color: "red",
+            });
+            break;
+          }
+        }
+      }
+      break;
+    }
+    if ( i === arrayAllDevice.length - 1 &&arrayAllDevice[i] !== data.Devicename) {
+      socket.emit("messageVariableDeleted", {
+        value: "Device no exit !",
+        color: "red",
+      });
+      break;
+    }
+  }
+  arrayAllVariable.unshift(arrayAllDevice);
+  moduleData.allPropertyOfAllVariable = arrayAllPropertiesOfVariable;
+  moduleData.dataArray = arrayAllVariable;
+  moduleData.arrayAllNodeID = arrayAllNodeID;
+  moduleData.server = server;
+}
+
+function UpdateBefore(data){
+  var arrayAllNodeID = moduleData.arrayAllNodeID;
+  var arrayAllVariableAndDevice = moduleData.dataArray;
+  var arrayAllVariable = arrayAllVariableAndDevice.slice( 1, arrayAllVariableAndDevice.length );
+  var arrayAllDevice = arrayAllVariableAndDevice.shift();
+  var arrayAllPropertiesOfVariable = moduleData.allPropertyOfAllVariable;
+
+  const server = moduleData.server;
+  const addressSpace = server.engine.addressSpace;
+  const namespace = addressSpace.getOwnNamespace();
+
+  for (let i = 0; i < arrayAllDevice.length; i++) {
+    if (arrayAllDevice[i] === data.Devicename) {
+      for (let j = 0; j < arrayAllVariable[i].length; j++) {
+        if (arrayAllVariable[i][j] === data.browerName) {
+         for (let l = 0; l < arrayAllPropertiesOfVariable.length; l++) {
+            if (arrayAllPropertiesOfVariable[l].properties.name === data.browerName ) {
+              namespace.deleteNode(arrayAllNodeID[l]);
+              arrayAllNodeID.splice(l, 1);
+              arrayAllPropertiesOfVariable.splice(l, 1);
+              break;
+            }
+          }
+          arrayAllVariable[i].splice(j, 1);
+         delete moduleData.server.engine.addressSpace.rootFolder.objects[arrayAllDevice[i]][data.browerName] ; 
+          break;
+        }
+        if ( j === arrayAllVariable[i].length - 1 && arrayAllVariable[i][j] !== data.browerName) {
+          socket.emit("messageVariableUpdated", {
+            value: "Variable no exit !",
+            color: "red",
+          });
+          break;
+        }
+      }
+      break;
+    }
+    if ( i === arrayAllDevice.length - 1 && arrayAllDevice[i] !== data.Devicename) {
+      socket.emit("messageVariableUpdated", {
+        value: "Device no exit !",
+        color: "red",
+      });
+      break;
+    }
+  }
+  arrayAllVariable.unshift(arrayAllDevice);
+  moduleData.allPropertyOfAllVariable = arrayAllPropertiesOfVariable;
+  moduleData.dataArray = arrayAllVariable;
+  moduleData.arrayAllNodeID = arrayAllNodeID;
+  moduleData.server = server;
+  return true ; 
+}
+
+function UpdateAfter(data){
+  var arrayAllVariableAndDevice = moduleData.dataArray;
+  var arrayAllVariable = arrayAllVariableAndDevice.slice(1,arrayAllVariableAndDevice.length);
+  var arrayAllDevice = arrayAllVariableAndDevice.shift();
+  var arrayAllPropertiesOfVariable = moduleData.allPropertyOfAllVariable;
+  var arrayPropertiesOfDevice = moduleData.arrayPropertiesOfDevice;
+  var arrayAllNodeID = moduleData.arrayAllNodeID;
+
+  const server = moduleData.server;
+  const addressSpace = server.engine.addressSpace;
+  const namespace = addressSpace.getOwnNamespace();
+  let propertiesOfVariable = {
+    deviceName: data.Devicename,
+    properties: {
+      nodeId: data.nodeId,
+      name: data.browerName,
+      dataType: data.dataType,
+      writable: data.writeable,
+    },
+  };
+  var device;
+  var ValueOfVariable = data.value;
+
+  for (let i = 0; i < arrayAllDevice.length; i++) {
+    if (arrayAllDevice[i] === data.Devicename) {
+          for (let k = 0; k < arrayAllDevice.length; k++) {
+            if (arrayAllDevice[k] === arrayAllDevice[i]) {
+              device = arrayPropertiesOfDevice[k];
+              break;
+            }
+          }
+          arrayAllPropertiesOfVariable.push(propertiesOfVariable) ;
+          arrayAllVariable[i].push(data.browerName);
+          if (data.writeable) {
+            var variableBefore = namespace.addVariable({
+              componentOf: device,
+              browseName: data.browerName,
+              nodeId: data.nodeId,
+              dataType: data.dataType,
+              value: {
+                get: function () {
+                  let variant = new opcua.Variant({
+                    dataType: data.dataType,
+                    value: ValueOfVariable,
+                  });
+                  return variant;
+                },
+                set: function (variant) {
+                  ValueOfVariable = variant.value;
+                  return opcua.StatusCodes.Good;
+                },
+              },
+            });
+            arrayAllNodeID.push(variableBefore);
+          } else {
+            var variableAfter = namespace.addVariable({
+              componentOf: device,
+              browseName: data.browerName,
+              nodeId: data.nodeId,
+              dataType: data.dataType,
+              value: {
+                get: function () {
+                  let variant = new opcua.Variant({
+                    dataType: opcua.DataType.Int16,
+                    value: ValueOfVariable,
+                  });
+                  return variant;
+                },
+                set: function (variant) {
+                  return opcua.StatusCodes.BadNotWritable;
+                },
+              },
+            });
+            arrayAllNodeID.push(variableAfter);
+          }
+        
+          socket.emit("messageVariableUpdated", {
+            value: "Variable has been updated !",
+            color: "green",
+          });
+      break;
+    }
+  }
+  arrayAllVariable.unshift(arrayAllDevice);
+  moduleData.allPropertyOfAllVariable = arrayAllPropertiesOfVariable;
+  moduleData.dataArray = arrayAllVariable;
+  moduleData.arrayAllNodeID = arrayAllNodeID;
+  moduleData.server = server;
+}
+});
+
+// end server
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== "listen") {
+    throw error;
+  }
+
+  var bind = typeof port === "string" ? "Pipe " + port : "Port " + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case "EACCES":
+      console.error(bind + " requires elevated privileges");
+      process.exit(1);
+      break;
+    case "EADDRINUSE":
+      console.error(bind + " is already in use");
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === "string" ? "pipe " + addr : "port " + addr.port;
+  debug("Listening on " + bind);
+}
+
+
+

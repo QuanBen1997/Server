@@ -1,0 +1,42 @@
+
+.nav-link[data-toggle="collapse"].collapsed:before {
+  content: " ▾";
+}
+.nav-link[data-toggle="collapse"]:not(.collapsed):before {
+  content: " ▴";
+}
+.Card_Addvariable{
+  width: 80%;
+  margin: 20px auto;
+}
+.Card_ConfigUrl{
+  width: 80%;
+  margin: 40px auto;
+}
+.card h3{
+  text-align: center;
+  background-color: aquamarine;
+  padding: 10px;
+}
+#Card-endpoint{
+  width: 55%; 
+  margin: 60px auto;
+  height: 450px;
+  align-items: center;
+}
+
+.user-Card{
+  float: left;
+  margin: 20px;
+  width: 290px;
+}
+.certificate_Card{
+   float: right;
+   margin: 20px;
+   width: 760px;
+
+}
+
+#card-deleteuser{
+margin-top: 20px;
+}

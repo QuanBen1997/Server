@@ -1,0 +1,1806 @@
+{
+    "Data": [
+        {
+            "deviceName": "PLC1",
+            "variablesList": [
+                {
+                    "name": "h_HoChua",
+                    "dataType": "Real",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "h_CB",
+                    "dataType": "Real",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "h_TH",
+                    "dataType": "Real",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "h_KK",
+                    "dataType": "Real",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "h_NaOH",
+                    "dataType": "Real",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "h_HCL",
+                    "dataType": "Real",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "Flow",
+                    "dataType": "Real",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "pH",
+                    "dataType": "Real",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "T1",
+                    "dataType": "Real",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "T2",
+                    "dataType": "Real",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "Pump1_1_RPM",
+                    "dataType": "Int",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "Pump1_2_RPM",
+                    "dataType": "Int",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "Pump2_1_RPM",
+                    "dataType": "Int",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "Pump2_2_RPM",
+                    "dataType": "Int",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "Pump3_1_RPM",
+                    "dataType": "Int",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "Pump3_2_RPM",
+                    "dataType": "Int",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "Pump7_RPM",
+                    "dataType": "Int",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "H6",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "H1",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "H1_Thres",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "L1",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "H2",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "L2",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "H4",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "L6",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "L7",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Val1_FB",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Val2_FB",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Val3_FB",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Pump1_1_Run",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Pump1_2_Run",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Pump2_1_Run",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Pump2_2_Run",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Pump3_1_Run",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Pump3_2_Run",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Pump7_Run",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Emg1",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Emg2",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Emg3",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Emg4",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "OverLoad_1",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "OverLoad_2",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "OverLoad_3",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "OverLoad_7",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "OverLoad_9",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Ack1",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "Emg_Scada_CB",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "Emg_Scada_TH",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "Emg_Scada_KK",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "Emg_Scada1",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "Pump1_1_Err",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Pump1_2_Err",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Pump2_1_Err",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Pump2_2_Err",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Pump3_1_Err",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Pump3_2_Err",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Val_1_Err",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Val_2_Err",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Val_3_Err",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Pump1_Reset",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "Pump2_Reset",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "Pump3_Reset",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "TH_Reset",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "TH_Done",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "KK_Done",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Start-Stop_In_System_PLC1",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "Run_System_PLC1",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Auto-Man_In_System_PLC1",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "Auto-Man_System_PLC1",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Confirm_System_PLC1",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "pmp1_Start-Stop_In",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "pmp1_Run",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "pmp1_Auto-Man_In",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "pmp1_Auto-Man",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "pmp1_Confirm1",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "pmp1_Start-Stop_Motor1",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "pmp1_Start-Stop_Motor2",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "pmp1_Confirm2",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "pmp1_Motor1_Run",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "pmp1_Motor2_Run",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "pmp1_W1",
+                    "dataType": "Int",
+                    "writable": true,
+                    "value": 0
+                },
+                {
+                    "name": "pmp1_W2",
+                    "dataType": "Int",
+                    "writable": true,
+                    "value": 0
+                },
+                {
+                    "name": "pmp1_TimeSet1h",
+                    "dataType": "UInt",
+                    "writable": true,
+                    "value": 0
+                },
+                {
+                    "name": "pmp1_TimeSet1m",
+                    "dataType": "UInt",
+                    "writable": true,
+                    "value": 0
+                },
+                {
+                    "name": "pmp1_TimeSet2h",
+                    "dataType": "UInt",
+                    "writable": true,
+                    "value": 0
+                },
+                {
+                    "name": "pmp1_TimeSet2m",
+                    "dataType": "UInt",
+                    "writable": true,
+                    "value": 0
+                },
+                {
+                    "name": "pmp2_Start-Stop_In",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "pmp2_Run",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "pmp2_Auto-Man_In",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "pmp2_Auto-Man",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "pmp2_Confirm1",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "pmp2_Start-Stop_Motor1",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "pmp2_Start-Stop_Motor2",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "pmp2_Confirm2",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "pmp2_Motor1_Run",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "pmp2_Motor2_Run",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "pmp2_W1",
+                    "dataType": "Int",
+                    "writable": true,
+                    "value": 0
+                },
+                {
+                    "name": "pmp2_W2",
+                    "dataType": "Int",
+                    "writable": true,
+                    "value": 0
+                },
+                {
+                    "name": "pmp2_TimeSet1h",
+                    "dataType": "UInt",
+                    "writable": true,
+                    "value": 0
+                },
+                {
+                    "name": "pmp2_TimeSet1m",
+                    "dataType": "UInt",
+                    "writable": true,
+                    "value": 0
+                },
+                {
+                    "name": "pmp2_TimeSet2h",
+                    "dataType": "UInt",
+                    "writable": true,
+                    "value": 0
+                },
+                {
+                    "name": "pmp2_TimeSet2m",
+                    "dataType": "UInt",
+                    "writable": true,
+                    "value": 0
+                },
+                {
+                    "name": "pmp3_Start-Stop_In",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "pmp3_Run",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "pmp3_Auto-Man_In",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "pmp3_Auto-Man",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "pmp3_Confirm1",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "pmp3_Start-Stop_Motor1",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "pmp3_Start-Stop_Motor2",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "pmp3_Confirm2",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "pmp3_Motor1_Run",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "pmp3_Motor2_Run",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "pmp3_W1",
+                    "dataType": "Int",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "pmp3_W2",
+                    "dataType": "Int",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "pmp3_TimeSet1h",
+                    "dataType": "UInt",
+                    "writable": true,
+                    "value": 0
+                },
+                {
+                    "name": "pmp3_TimeSet1m",
+                    "dataType": "UInt",
+                    "writable": true,
+                    "value": 0
+                },
+                {
+                    "name": "pmp3_TimeSet2h",
+                    "dataType": "UInt",
+                    "writable": true,
+                    "value": 0
+                },
+                {
+                    "name": "pmp3_TimeSet2m",
+                    "dataType": "UInt",
+                    "writable": true,
+                    "value": 0
+                },
+                {
+                    "name": "th_Start-Stop_In",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "th_Run",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "th_Auto-Man_In",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "th_Auto-Man",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "th_Confirm",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "th_Val1",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "th_Val2",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "th_Start-Stop_Pump7",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "th_W",
+                    "dataType": "Int",
+                    "writable": true,
+                    "value": 0
+                },
+                {
+                    "name": "th_pH_SP",
+                    "dataType": "Real",
+                    "writable": true,
+                    "value": 0
+                },
+                {
+                    "name": "th_V_NaOH_TT",
+                    "dataType": "Real",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "th_V_HCl_TT",
+                    "dataType": "Real",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "th_Count",
+                    "dataType": "Int",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "th_V_NaOH",
+                    "dataType": "Real",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "th_V_HCl ",
+                    "dataType": "Real",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "th_Done_Man",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "MIX_Auto-Man_In",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "MiX_Auto-Man",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "MIX_Start-Stop_In ",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "MIX_Run",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+				},
+				
+
+                {
+                    "name": "Time_Count_Pump1_1_h",
+                    "dataType": "UInt",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "Time_Count_Pump1_1_m",
+                    "dataType": "UInt",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "Time_Count_Pump1_1_s",
+                    "dataType": "UInt",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "Time_Count_Pump1_2_h",
+                    "dataType": "UInt",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "Time_Count_Pump1_2_m",
+                    "dataType": "UInt",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "Time_Count_Pump1_2_s",
+                    "dataType": "UInt",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "Time_Count_Pump2_1_h",
+                    "dataType": "UInt",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "Time_Count_Pump2_1_m",
+                    "dataType": "UInt",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "Time_Count_Pump2_1_s",
+                    "dataType": "UInt",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "Time_Count_Pump2_2_h",
+                    "dataType": "UInt",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "Time_Count_Pump2_2_m",
+                    "dataType": "UInt",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "Time_Count_Pump2_2_s",
+                    "dataType": "UInt",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "Time_Count_Pump3_1_h",
+                    "dataType": "UInt",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "Time_Count_Pump3_1_m",
+                    "dataType": "UInt",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "Time_Count_Pump3_1_s",
+                    "dataType": "UInt",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "Time_Count_Pump3_2_h",
+                    "dataType": "UInt",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "Time_Count_Pump3_2_m",
+                    "dataType": "UInt",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "Time_Count_Pump3_2_s",
+                    "dataType": "UInt",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "Time_Set_KK_h",
+                    "dataType": "UInt",
+                    "writable": true,
+                    "value": 0
+                },
+                {
+                    "name": "Time_Set_KK_m",
+                    "dataType": "UInt",
+                    "writable": true,
+                    "value": 0
+                },
+                {
+                    "name": "Time_Set_KK_s",
+                    "dataType": "UInt",
+                    "writable": true,
+                    "value": 0
+                },
+                {
+                    "name": "Time_Count_KK_h",
+                    "dataType": "UInt",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "Time_Count_KK_m",
+                    "dataType": "UInt",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "Time_Count_KK_s",
+                    "dataType": "UInt",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "KK_Count",
+                    "dataType": "Int",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "KK_Flow_SP",
+                    "dataType": "Real",
+                    "writable": true,
+                    "value": 0
+                },
+                {
+                    "name": "KK_Reset_Time_Man",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "KK_Start_Time_Man",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                }
+            ]
+        },
+        {
+            "deviceName": "PLC2",
+            "variablesList": [
+                {
+                    "name": "h_Temp",
+                    "dataType": "Real",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "h_HK",
+                    "dataType": "Real",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "h_Lang",
+                    "dataType": "Real",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "DO",
+                    "dataType": "Real",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "T3",
+                    "dataType": "Real",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "H3",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "H3_Thres",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "H7",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "H5",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "H5_Thres",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "L5",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Val4_FB",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Val5_FB",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Val6_FB",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Pump4_1_Run",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Pump4_2_Run",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "flow2" ,
+                    "dataType": "Real" ,
+                    "writable" : false , 
+                    "value": 0 
+                },
+                {
+                    "name": "Pump5_1_Run",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Pump5_2_Run",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Pump6_Run",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Motor_Run",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Pump4_1_RPM",
+                    "dataType": "Int",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "Pump4_2_RPM",
+                    "dataType": "Int",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "Pump5_1_RPM",
+                    "dataType": "Int",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "Pump5_2_RPM",
+                    "dataType": "Int",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "Pump6_RPM",
+                    "dataType": "Int",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "Emg5",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Emg6",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Emg7",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "OverLoad_4",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "OverLoad_5",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "OverLoad_6",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "OverLoad_7",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+
+
+                {
+                    "name": "Ack2",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+
+
+                {
+                    "name": "Emg_Scada2",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "Emg_Scada_HK",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "Emg_Scada_BL",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+
+
+                {
+                    "name": "Pump4_1_Err",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Pump4_2_Err",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Pump5_1_Err",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Pump5_2_Err",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Pump6_Err",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Motor_Err",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Val_4_Err",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Val_5_Err",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Val_6_Err",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+
+
+                {
+                    "name": "Pump4_Reset",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "Pump5_Reset",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "BL_Reset",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "BL_Done",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "HK_Done",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+
+
+                {
+                    "name": "Start-Stop_In_System_PLC2",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "Run_System_PLC2",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Auto-Man_In_System_PLC2",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "Auto-Man_System_PLC2",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "Confirm_System_PLC2",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+
+
+                {
+                    "name": "pmp4_Start-Stop_In",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "pmp4_Run",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "pmp4_Auto-Man_In",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "pmp4_Auto-Man",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "pmp4_Confirm1",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "pmp4_Start-Stop_Motor1",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "pmp4_Start-Stop_Motor2",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "pmp4_Confirm2",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "pmp4_Motor1_Run",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "pmp4_Motor2_Run",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "pmp4_W1",
+                    "dataType": "Int",
+                    "writable": true,
+                    "value": 0
+                },
+                {
+                    "name": "pmp4_W2",
+                    "dataType": "Int",
+                    "writable": true,
+                    "value": 0
+                },
+                {
+                    "name": "pmp4_TimeSet1h",
+                    "dataType": "UInt",
+                    "writable": true,
+                    "value": 0
+                },
+                {
+                    "name": "pmp4_TimeSet1m",
+                    "dataType": "UInt",
+                    "writable": true,
+                    "value": 0
+                },
+                {
+                    "name": "pmp4_TimeSet2h",
+                    "dataType": "UInt",
+                    "writable": true,
+                    "value": 0
+                },
+                {
+                    "name": "pmp4_TimeSet2m",
+                    "dataType": "UInt",
+                    "writable": true,
+                    "value": 0
+                },
+
+                {
+                    "name": "pmp5_Start-Stop_In",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "pmp5_Run",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "pmp5_Auto-Man_In",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "pmp5_Auto-Man",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "pmp5_Confirm1",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "pmp5_Start-Stop_Motor1",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "pmp5_Start-Stop_Motor2",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "pmp5_Confirm2",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "pmp5_Motor1_Run",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "pmp5_Motor2_Run",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "pmp5_W1",
+                    "dataType": "Int",
+                    "writable": true,
+                    "value": 0
+                },
+                {
+                    "name": "pmp5_W2",
+                    "dataType": "Int",
+                    "writable": true,
+                    "value": 0
+                },
+                {
+                    "name": "pmp5_TimeSet1h",
+                    "dataType": "UInt",
+                    "writable": true,
+                    "value": 0
+                },
+                {
+                    "name": "pmp5_TimeSet1m",
+                    "dataType": "UInt",
+                    "writable": true,
+                    "value": 0
+                },
+                {
+                    "name": "pmp5_TimeSet2h",
+                    "dataType": "UInt",
+                    "writable": true,
+                    "value": 0
+                },
+                {
+                    "name": "pmp5_TimeSet2m",
+                    "dataType": "UInt",
+                    "writable": true,
+                    "value": 0
+                },
+
+
+                {
+                    "name": "HK_Count",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "HK_DO_SP",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "HK_Reset_Time_Man",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "HK_Start_Time_Man",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "HK_Vpump",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+
+
+                {
+                    "name": "bl_Start-Stop_In",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "pbl_Run",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "bl_Auto-Man_In",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "bl_Auto-Man ",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
+                    "name": "bl_Confirm1",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "bl_Start-Stop_Pump6",
+                    "dataType": "Bool",
+                    "writable": false,
+                    "value": false
+                },
+                {
+                    "name": "bl_W",
+                    "dataType": "Int",
+                    "writable": true,
+                    "value": 0
+                },
+                {
+                    "name": "bl_Val4_Man",
+                    "dataType": "Int",
+                    "writable": true,
+                    "value": 0
+                },
+                {
+                    "name": "bl_Start-Stop_Motor",
+                    "dataType": "UInt",
+                    "writable": true,
+                    "value": 0
+                },
+                {
+                    "name": "bl_Start_Time_Man",
+                    "dataType": "UInt",
+                    "writable": true,
+                    "value": 0
+                },
+                {
+                    "name": "bl_Reset_Time_Man",
+                    "dataType": "UInt",
+                    "writable": true,
+                    "value": 0
+                },
+
+
+                {
+                    "name": "Time_Count_Pump4_1_h",
+                    "dataType": "UInt",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "pTime_Count_Pump4_1_m",
+                    "dataType": "UInt",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "Time_Count_Pump4_1_s",
+                    "dataType": "UInt",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "Time_Count_Pump4_2_h",
+                    "dataType": "UInt",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "Time_Count_Pump4_2_m",
+                    "dataType": "UInt",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "Time_Count_Pump4_2_s",
+                    "dataType": "UInt",
+                    "writable": false,
+                    "value": 0
+                },
+
+
+                
+                {
+                    "name": "Time_Count_Pump5_1_h",
+                    "dataType": "UInt",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "pTime_Count_Pump5_1_m",
+                    "dataType": "UInt",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "Time_Count_Pump5_1_s",
+                    "dataType": "UInt",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "Time_Count_Pump5_2_h",
+                    "dataType": "UInt",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "Time_Count_Pump5_2_m",
+                    "dataType": "UInt",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "Time_Count_Pump5_2_s",
+                    "dataType": "UInt",
+                    "writable": false,
+                    "value": 0
+                },
+
+
+                {
+                    "name": "Time_Set_HK_h",
+                    "dataType": "UInt",
+                    "writable": true,
+                    "value": 0
+                },
+                {
+                    "name": "Time_Set_HK_m",
+                    "dataType": "UInt",
+                    "writable": true,
+                    "value": 0
+                },
+                {
+                    "name": "Time_Set_HK_s",
+                    "dataType": "UInt",
+                    "writable": true,
+                    "value": 0
+                },
+                {
+                    "name": "Time_Count_HK_h",
+                    "dataType": "UInt",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "Time_Count_HK_m",
+                    "dataType": "UInt",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "Time_Count_HK_s",
+                    "dataType": "UInt",
+                    "writable": false,
+                    "value": 0
+                },
+
+
+                {
+                    "name": "Time_Set_BL_h",
+                    "dataType": "UInt",
+                    "writable": true,
+                    "value": 0
+                },
+                {
+                    "name": "Time_Set_BL_m",
+                    "dataType": "UInt",
+                    "writable": true,
+                    "value": 0
+                },
+                {
+                    "name": "Time_Set_BL_s",
+                    "dataType": "UInt",
+                    "writable": true,
+                    "value": 0
+                },
+                {
+                    "name": "Time_Count_BL_h",
+                    "dataType": "UInt",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "Time_Count_BL_m",
+                    "dataType": "UInt",
+                    "writable": false,
+                    "value": 0
+                },
+                {
+                    "name": "Time_Count_BL_s",
+                    "dataType": "UInt",
+                    "writable": true,
+                    "value": 0
+                }
+            ]
+        }
+    ]
+}
