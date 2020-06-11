@@ -265,7 +265,6 @@ module.exports.startAsync = async (function (options)
                 dataArray.push(objectEachDevice);
               }
               moduleData.dataArray = dataArray;  
-              console.log(dataArray)
               try
             {
             await (opcuaStartAsync(moduleData.server));
@@ -358,7 +357,7 @@ module.exports.startAsync = async (function (options)
           moduleData.arraySessionCreated = arraySessionCreated;
           moduleData.arraySessionClosed = arraySessionClosed;
           moduleData.arrayAllNodeID = arrayAllNodeID;
-          stateServer = true ;  
+          moduleData.stateServer = true ;  
     return moduleData;
 });
 

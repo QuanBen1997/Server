@@ -264,7 +264,6 @@ socket.on("optionsOPC", (data) => {
     options.allowAnonymous = data.allowAnonymous;
     (async () => {
       if (data.allowAnonymous === false) {
-        console.log(arrayUsers)
         for(let i = 0 ; i< arrayUsers.length ; i++){
           if(arrayUsers[i].user !== data.user && arrayUsers[i].password !== data.password){
             arrayUsers.push({user: data.user,
@@ -285,7 +284,7 @@ socket.on("optionsOPC", (data) => {
         options.userManager = usrManager;
       }
       await Start() ; 
-      
+      stateServer = moduleData.stateServer ; 
       socket.emit('allPropertiesVariable',moduleData.propertiesAllVariable);
       socket.emit(  "endpoints1",moduleData.server.endpoints[0].endpointDescriptions()[0].endpointUrl);
       socket.emit( "endpoints2","opc.tcp://" + ipAddress + ":" + port + options.resourcePath );
@@ -299,7 +298,6 @@ socket.on("optionsOPC", (data) => {
   // get All Endpoints
 socket.on("allEndpoints", (data) => {
     objectEndpoints = data;
-    console.log(objectEndpoints);
 });
   // load data before Server Started
 socket.emit('loadUser', {listUser: arrayUsers }) ; 
@@ -348,7 +346,6 @@ if (flag && stateServer ) {
     var dateTime = moduleData.server.engine.startTime;
     var arrayData = moduleData.dataArray;
     var allProperties = moduleData.allPropertyOfAllVariable;
-    console.log(arrayData) ; 
     socket.emit("saveConfig", {
       mainUrl,
       alternativeUrl,
@@ -374,7 +371,9 @@ if (flag && stateServer ) {
     var AllData = loadAllValueOfVariable(server) ;
     moduleData.AllData = AllData ; 
     }, 1000);
+   
 
+    // create api
     app.get('/api/get', (req ,res)=>{
     res.send(JSON.stringify(moduleData.AllData )) ; 
     });

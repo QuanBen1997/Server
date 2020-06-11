@@ -81,7 +81,6 @@ $(document).ready(() => {
   });
 
   socket.on('allPropertiesVariable', (data) => {
-    console.log(data)
     getAllProperties(data) ; 
   });
   var objectSessionCreate = {} ; 
