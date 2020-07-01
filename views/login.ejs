@@ -11,12 +11,21 @@
 			margin: 0 auto;
 			font-family: Tahoma, Geneva, sans-serif;
 			align-items: center;
+			background-color: #cccccc ;
+			padding: 30px;
 		}
 		.login-form h1 {
 			text-align: center;
 			color: #4d4d4d;
 			font-size: 24px;
 			padding: 20px 0 20px 0;
+		}
+		.login-form img {
+			width: 80px;
+			height: 80px;
+			display: block;
+            margin-left: auto;
+            margin-right: auto;
 		}
 		.login-form input[type="password"],
 		.login-form input[type="text"] {
@@ -25,6 +34,7 @@
 			border: 1px solid #dddddd;
 			margin-bottom: 15px;
 			box-sizing:border-box;
+			border-radius: 2%;
 		}
 		.login-form button{
 			width: 100%;
@@ -35,11 +45,13 @@
 			cursor: pointer;
 			font-weight: bold;
 			color: #ffffff;
+			border-radius: 2%;
 		}
 		</style>
 </head>
 <body>
     <div class="login-form">
+		<img src="./images/logo.png" alt="logo">
 		<h1>Please Login</h1>
 		<% if (error != '') { %>
 			<p style="color: red; text-align: center;" class="text-center"><%= error %></p>

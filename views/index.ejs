@@ -124,7 +124,7 @@
         <div class="row no-gutters ">
          <div class="col-md-3 "   >
            <img src="./images/logo.png" class="card-img" alt="Logo"
-           width="120px"
+           width="118px"
            height="120px" 
            style="margin-top: 160px;margin-left: 30px;">
          </div>
@@ -135,6 +135,7 @@
              <p id="serverStatus">Server Status :  <i class="fas fa-times"> </i> Action Needed </p>
              <p id="urlEndpoints1"></p>
              <p id="urlEndpoints2"></p>
+             <p id="authenticationSet"></p>
              <p id="curentTime"></p>
              <p id="timeStart"></p>
            </div>
@@ -155,7 +156,7 @@
         <div class="card bg-light text-dark">
           <div class="card-header" style="display: flex;">
           <h2 style="margin-right: 20px;">Endpoint URL :</h2>
-          <h2 id="endpointTab2">opc.tcp://DESKTOP-LOTC86T:4840</h2>
+          <h2 id="endpointTab2">opc.tcp://<%= host %>:4840</h2>
           </div>
           <div class="card-body">
             <form class="form" role="form" autocomplete="off">
@@ -781,7 +782,6 @@
           </table>
           
         </div>
-        
         <!-- Modal footer -->
         <div class="modal-footer">
           <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
@@ -789,7 +789,7 @@
       </div>
       </div>
   </div>
-
+  
 
     <script src="./javascripts/myScripts.js"></script>
   </body>

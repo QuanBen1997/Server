@@ -44,7 +44,20 @@ var hostname = os.hostname();
 
 //opcua server import
 var OPCUAServer = require('../models/OPC_Server');
-
+const moduleTypesCodeMap = 
+{
+    'Boolean' : opcua.DataType.Boolean,
+    'Float' : opcua.DataType.Float,
+    'Double' : opcua.DataType.Double,
+    'Byte' : opcua.DataType.Byte,
+    'Int16' : opcua.DataType.Int16,
+    'Int32' : opcua.DataType.Int32,
+    'Int64' : opcua.DataType.Int64,
+    'UInt16' : opcua.DataType.UInt16,
+    'UInt32' : opcua.DataType.UInt32,
+    'UInt64' : opcua.DataType.UInt64,
+    'String' : opcua.DataType.String
+};
 
 // decalare public variable and add seft module
 var appConfig = require("../module/appconfig.json");
@@ -286,8 +299,9 @@ socket.on("optionsOPC", (data) => {
       await Start() ; 
       stateServer = moduleData.stateServer ; 
       socket.emit('allPropertiesVariable',moduleData.propertiesAllVariable);
-      socket.emit(  "endpoints1",moduleData.server.endpoints[0].endpointDescriptions()[0].endpointUrl);
-      socket.emit( "endpoints2","opc.tcp://" + ipAddress + ":" + port + options.resourcePath );
+      socket.emit("endpoints1",moduleData.server.endpoints[0].endpointDescriptions()[0].endpointUrl);
+      socket.emit( "endpoints2","opc.tcp://" + ipAddress + ":" + options.port + options.resourcePath );
+      socket.emit("allowanonymous", data ) ; 
     })();
     setTimeout(() => {
       socket.emit('startServer' , {message: 'Server is running' , color: 'green'} )
@@ -346,12 +360,14 @@ if (flag && stateServer ) {
     var dateTime = moduleData.server.engine.startTime;
     var arrayData = moduleData.dataArray;
     var allProperties = moduleData.allPropertyOfAllVariable;
+    var authority = options.allowAnonymous ; 
     socket.emit("saveConfig", {
       mainUrl,
       alternativeUrl,
       arrayData,
       allProperties,
       dateTime,
+      authority
     });
 
     setInterval(() => {
@@ -364,43 +380,45 @@ if (flag && stateServer ) {
     socket.emit("SessionCreate", allSessionCreate);
     socket.emit("SessionClosed", allSessionClosed);
     socket.emit("tranferAgaintObjectEndpoints", objectEndpoints);
-
+    
+    var dataNeedGet = require('../module/allDataNeedGetApi.json') ; 
     // cycle get all data , create api get data
     setInterval(() => {
     var server  = moduleData.server ;
-    var AllData = loadAllValueOfVariable(server) ;
+    var AllData = AllDataGetApi(server,dataNeedGet) ;
     moduleData.AllData = AllData ; 
-    }, 1000);
-   
-
+    },1000);
     // create api
-    app.get('/api/get', (req ,res)=>{
-    res.send(JSON.stringify(moduleData.AllData )) ; 
+    // get all api
+    app.get('/api/get/All', (req ,res)=>{
+    res.send(JSON.stringify(moduleData.AllData)) ; 
     });
-    app.post('/api/update', (req,res)=>{
-      let dataPut = req.body.data ; 
-      res.send(JSON.stringify({data: dataPut})) ; 
-      var nodesToWrite = [
-        {
-          nodeId: 'ns=1;s="simulation"."random"',
-          attributeId: 13,
-          indexRange: null,
-          value: {
-            value: {
-              dataType: opcua.DataType.Double,
-              value: dataPut,
-            },
-          },
-        },
-      ];
-      const Write_Valua = session.write(nodesToWrite, function(
-        err,
-        StatusCode
-      ) {
-        if (!err) console.log(" Write OK !" , dataPut);
+    // get eacah api 
+    for(let i =0 ; i < dataNeedGet.data.length ; i ++){
+      app.get(`/api/get/${dataNeedGet.data[i]}`, (req ,res)=>{
+        res.send(JSON.stringify(moduleData.AllData[i])) ; 
       });
-    }) ; 
-
+    }
+    //post api 
+    for(let i =0 ; i < allProperties.length ; i++){
+      app.post(`/api/post/${allProperties[i].properties.name}`, (req,res)=>{
+        let device = req.body.device;
+        let value = req.body.value; 
+        let dataType = req.body.dataType; 
+        let variablename = req.body.nameVariable ; 
+        const variable = moduleData.server.engine.addressSpace.findNode(`ns=1;s=${device}.${variablename}`) ; 
+        variable.writeValue(
+            null, 
+            new opcua.DataValue({
+              value: new opcua.Variant({dataType: moduleTypesCodeMap[dataType], value: value })
+            }),
+            null, 
+            () => { }
+         ); 
+        res.send(JSON.stringify({data: value})) ; 
+      }) ;
+    }
+     
     // function get All value and name variable
 function loadAllValueOfVariable(server){
   if(server.engine.addressSpace !== null){
@@ -425,7 +443,36 @@ function loadAllValueOfVariable(server){
     return AllData ;
   }
  }
+ function AllDataGetApi(server , arayNameCompare){
+  if(server.engine.addressSpace !== null){
+    let object = server.engine.addressSpace.rootFolder.objects;
+    let DataTranfer = [];
+    let AllData = [];
+    let allDevice = Object.keys(object).slice(9, Object.keys(object).length );
+    for (const iterator of allDevice) {
+      let eachDevice = Object.values(object[iterator]).slice(8,Object.values(object[iterator]).length);
+      DataTranfer.push(eachDevice);}
+    for (let i = 0; i < DataTranfer.length; i++) {
+      for (let j = 0; j < DataTranfer[i].length; j++) {
+        for(let k =0 ; k < arayNameCompare.data.length ; k++){
+          if (DataTranfer[i][j] !== undefined) {
+          if (DataTranfer[i][j].browseName.name === arayNameCompare.data[k]) {
+            AllData.push({
+              name: DataTranfer[i][j].browseName.name,
+              value: DataTranfer[i][j]._dataValue.value.value,
+              nodeId: DataTranfer[i][j].nodeId
+            });
+            break ; 
+          }
+         }
+        }
+      }
+    } ;
+    return AllData ;
+  }
+ }
 }
+
 
   // function , add, delete variable
  function AddVariable(data){

@@ -280,6 +280,7 @@ module.exports.startAsync = async (function (options)
               const alternateHostnames ="opc.tcp://" + ipAddress + ":" + port + options.resourcePath;
               console.log( "Alternative server endpoint url is : ",alternateHostnames );
               console.log("Server is ready !");
+              
               //send endpoints of server and properties of all variable
           
     

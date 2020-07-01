@@ -39,8 +39,27 @@ $(document).ready(() => {
       `Server Status : <i class="fas fa-check-circle" ></i> running`
     );
   });
-
+  socket.on("allowanonymous",(data)=>{
+    if(data.allowAnonymous === true){
+      $('#authenticationSet').html(`
+      Authentication: <strong> Anonymous </strong>
+      `)
+    }else{
+      $('#authenticationSet').html(`
+      Authentication: <strong> User/Password </strong>
+      `)
+    }
+  })
   socket.on('saveConfig', async (data)=>{
+    if(data.authority === true){
+      $('#authenticationSet').html(`
+      Authentication: <strong> Anonymous </strong>
+      `)
+    }else{
+      $('#authenticationSet').html(`
+      Authentication: <strong> User/Password </strong>
+      `)
+    }
     $("#urlEndpoints1").html(
       "Primary server endpoint url: " + " <strong>" + data.mainUrl + "</strong>"
     );
